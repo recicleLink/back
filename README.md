@@ -1,66 +1,66 @@
-```markdown
 # RecycleLink Backend
 
-RecycleLink é uma plataforma destinada a conectar moradores, cooperativas de reciclagem e coletores,
-facilitando o processo de coleta seletiva e reciclagem na região de Embu-Guaçu, São Paulo.
-Este repositório contém o código backend do projeto.
+RecycleLink é uma plataforma que facilita a coleta seletiva de resíduos, conectando moradores, cooperativas de reciclagem e catadores. Este repositório contém o código do backend do projeto, desenvolvido em Node.js e MongoDB.
 
 ## 🛠️ Tecnologias Utilizadas
 
-- Node.js
-- Express.js
-- MongoDB
+- [Node.js](https://nodejs.org/en/)
+- [Express.js](https://expressjs.com/)
+- [Mongoose](https://mongoosejs.com/)
+- [MongoDB](https://www.mongodb.com/)
 
-## 🚀 Instalação e Execução
+## 📂 Estrutura do Projeto
 
-1. **Clonar o repositório**:
-```bash
-git clone https://github.com/FellGMS/RecycleLink.git
+```plaintext
+/backend
+  /config
+    - banco.js
+  /modelos
+    - Usuario.js
+    - SolicitacaoColeta.js
+  /rotas
+    /api
+      - autenticacao.js
+      - usuarios.js
+      - solicitacoesColeta.js
+  - app.js
+  - .env
 ```
 
-2. **Navegar até o diretório**:
-```bash
-cd RecycleLink
-```
+## 🚀 Iniciando o Projeto
 
-3. **Instalar as dependências**:
+1. Clone o repositório no GitHub
+2. Abra o projeto no seu editor de código favorito
+3. Instale as dependências com o comando:
 ```bash
 npm install
 ```
-
-4. **Configurar o banco de dados**:
-   - Crie uma conta e um banco de dados no MongoDB Atlas.
-   - Substitua as credenciais no arquivo `config/banco.js`.
-
-5. **Iniciar o servidor**:
+4. Execute o servidor com o comando:
 ```bash
 npm start
 ```
 
-## 📋 Endpoints
+## 📝 Endpoints
 
-- **Usuários**:
-  - `POST /api/usuarios/cadastro`: Cadastrar um novo usuário.
-  - `POST /api/usuarios/login`: Autenticar um usuário.
-  - `GET /api/usuarios/perfil`: Obter o perfil do usuário autenticado.
+- Autenticação
+  - `POST /api/autenticacao/registro`: Registra um novo usuário
+  - `POST /api/autenticacao/login`: Autentica um usuário existente
 
-- **Solicitações de Coleta**:
-  - `POST /api/solicitacoesColeta/nova`: Criar uma nova solicitação de coleta.
-  - `GET /api/solicitacoesColeta`: Listar todas as solicitações de coleta.
-  
-## 📄 Licença
+- Usuários
+  - `GET /api/usuarios`: Retorna todos os usuários
+  - `GET /api/usuarios/:id`: Retorna um usuário específico
+  - `PUT /api/usuarios/:id`: Atualiza um usuário específico
+  - `DELETE /api/usuarios/:id`: Exclui um usuário específico
 
-Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+- Solicitações de Coleta
+  - `GET /api/solicitacoesColeta`: Retorna todas as solicitações de coleta
+  - `GET /api/solicitacoesColeta/:id`: Retorna uma solicitação de coleta específica
+  - `POST /api/solicitacoesColeta`: Cria uma nova solicitação de coleta
+  - `PUT /api/solicitacoesColeta/:id`: Atualiza uma solicitação de coleta específica
+  - `DELETE /api/solicitacoesColeta/:id`: Exclui uma solicitação de coleta específica
 
-## 🤝 Contribuição
+## 📌 Informações Adicionais
 
-Para contribuir com o projeto, crie um fork e submeta suas alterações através de um Pull Request.
+O projeto RecycleLink é uma iniciativa para facilitar e incentivar a coleta seletiva e a reciclagem na comunidade. Esta versão do backend é um MVP (Produto Mínimo Viável) para demonstrar a funcionalidade básica da plataforma. Futuras atualizações irão expandir as funcionalidades e melhorar a experiência do usuário.
 
-## 📬 Contato
-
-- Github: [https://github.com/FellGMS/RecycleLink](https://github.com/FellGMS/RecycleLink)
-```
-
-Este README resume o processo de instalação e execução do backend do projeto RecycleLink,
-além de listar as tecnologias utilizadas, os principais endpoints e outras informações relevantes
-para os avaliadores e outros desenvolvedores.
+Para mais informações sobre o desenvolvimento e a estrutura do backend, consulte a documentação detalhada fornecida junto com o projeto.

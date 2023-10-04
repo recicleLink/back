@@ -1,7 +1,9 @@
 ```markdown
 # RecycleLink Backend
 
-RecycleLink é uma plataforma destinada a conectar moradores, cooperativas de reciclagem e coletores, facilitando o processo de coleta seletiva e reciclagem na região de Embu-Guaçu, São Paulo. Este repositório contém o código backend do projeto.
+RecycleLink é uma plataforma destinada a conectar moradores, cooperativas de reciclagem e coletores,
+facilitando o processo de coleta seletiva e reciclagem na região de Embu-Guaçu, São Paulo.
+Este repositório contém o código backend do projeto.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -59,4 +61,6 @@ Para contribuir com o projeto, crie um fork e submeta suas alterações através
 - Github: [https://github.com/FellGMS/RecycleLink](https://github.com/FellGMS/RecycleLink)
 ```
 
-Este README resume o processo de instalação e execução do backend do projeto RecycleLink, além de listar as tecnologias utilizadas, os principais endpoints e outras informações relevantes para os avaliadores e outros desenvolvedores.
+Este README resume o processo de instalação e execução do backend do projeto RecycleLink,
+além de listar as tecnologias utilizadas, os principais endpoints e outras informações relevantes
+para os avaliadores e outros desenvolvedores.

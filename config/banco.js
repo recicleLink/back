@@ -1,5 +1,6 @@
 // Importa a biblioteca mongoose
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 // Função assíncrona para conectar ao banco de dados
 const conectarDB = async () => {
@@ -8,11 +9,9 @@ const conectarDB = async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false
     });
     // Exibe mensagem no console caso a conexão seja bem-sucedida
-    console.log('Banco de dados conectado');
+    console.log("Banco de dados conectado");
   } catch (err) {
     // Exibe mensagem de erro no console e encerra o processo caso a conexão falhe
     console.error(err.message);

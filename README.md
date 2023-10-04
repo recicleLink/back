@@ -12,7 +12,6 @@ RecycleLink é uma plataforma que facilita a coleta seletiva de resíduos, conec
 ## 📂 Estrutura do Projeto
 
 ```plaintext
-/backend
   /config
     - banco.js
   /modelos

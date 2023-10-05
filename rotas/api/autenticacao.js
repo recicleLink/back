@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const Usuario = require("../../modelos/Usuario");
 
 // Rota POST para registro de usuário
@@ -50,7 +51,6 @@ router.post("/login", async (req, res) => {
   const { email, senha } = req.body;
 
   try {
-    // Verifica se o usuário existe
     let usuario = await Usuario.findOne({ email });
     if (!usuario) {
       return res
@@ -58,7 +58,6 @@ router.post("/login", async (req, res) => {
         .json({ erros: [{ msg: "Credenciais inválidas" }] });
     }
 
-    // Compara a senha enviada com a senha no banco de dados
     const isMatch = await bcrypt.compare(senha, usuario.senha);
     if (!isMatch) {
       return res
@@ -66,14 +65,28 @@ router.post("/login", async (req, res) => {
         .json({ erros: [{ msg: "Credenciais inválidas" }] });
     }
 
-    // Aqui você pode gerar um token JWT ou qualquer outra lógica de autenticação
-
-    res
-      .status(200)
-      .json({
-        msg: "Usuário autenticado com sucesso",
+    // Definindo o payload do token
+    const payload = {
+      user: {
+        id: usuario.id,
         tipoUsuario: usuario.tipoUsuario,
-      });
+      },
+    };
+
+    // Gerando o token
+    jwt.sign(
+      payload,
+      "sua_chave_secreta", // troque pela sua chave secreta
+      { expiresIn: "1h" },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({
+          msg: "Usuário autenticado com sucesso",
+          token,
+          tipoUsuario: usuario.tipoUsuario,
+        });
+      }
+    );
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Erro no servidor");

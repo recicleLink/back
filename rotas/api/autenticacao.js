@@ -70,6 +70,7 @@ router.post("/login", async (req, res) => {
       user: {
         id: usuario.id,
         tipoUsuario: usuario.tipoUsuario,
+        solicitacoesAtribuidas: usuario.solicitacoesAtribuidas,
       },
     };
 
@@ -84,6 +85,7 @@ router.post("/login", async (req, res) => {
           msg: "Usuário autenticado com sucesso",
           token,
           tipoUsuario: usuario.tipoUsuario,
+          solicitacoesAtribuidas: usuario.solicitacoesAtribuidas,
         });
       }
     );

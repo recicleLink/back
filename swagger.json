@@ -20,7 +20,25 @@
             "$ref": "#/components/responses/usuarios"
           },
           "500": {
-            "$ref": "#/components/responses/error"
+            "$ref": "#/components/responses/erro"
+          }
+        },
+        "tags": ["Usuário"]
+      },
+      "post": {
+        "summary": "Cria um usuário novo",
+        "requestBody": {
+          "$ref": "#/components/requestBody/usuario"
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso"
+          },
+          "400": {
+            "$ref": "#/components/responses/erroRegistroExiste"
+          },
+          "500": {
+            "$ref": "#/components/responses/erro"
           }
         },
         "tags": ["Usuário"]
@@ -35,7 +53,7 @@
             "$ref": "#/components/responses/usuario"
           },
           "500": {
-            "$ref": "#/components/responses/error"
+            "$ref": "#/components/responses/erro"
           }
         },
         "tags": ["Usuário"]
@@ -50,7 +68,7 @@
             "$ref": "#/components/responses/usuarios"
           },
           "500": {
-            "$ref": "#/components/responses/error"
+            "$ref": "#/components/responses/erro"
           }
         },
         "tags": ["Usuário"]
@@ -76,6 +94,17 @@
         }
       }
     },
+    "requestBody": {
+      "usuario": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/usuario_create"
+            }
+          }
+        }
+      }
+    },
     "responses": {
       "usuario": {
         "description": "Sucesso",
@@ -97,8 +126,18 @@
           }
         }
       },
-      "error": {
-        "description": "Erro",
+      "erroRegistroExiste": {
+        "description": "Erro de registro já existente",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "erro": {
+        "description": "Erro do servidor",
         "content": {
           "application/json": {
             "schema": {
@@ -145,6 +184,33 @@
           "__v": {
             "title": "Coluna de controle de versão",
             "type": "integer"
+          }
+        }
+      },
+      "usuario_create": {
+        "title": "schema de criação do usuário",
+        "description": "Usuário (Object)",
+        "type": "object",
+        "properties": {
+          "nome": {
+            "title": "Nome do usuário",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email do usuário",
+            "type": "string"
+          },
+          "senha": {
+            "title": "Senha do usuário",
+            "type": "string"
+          },
+          "endereco": {
+            "title": "Endereço do usuário",
+            "type": "string"
+          },
+          "tipoUsuario": {
+            "title": "Tipo do usuário",
+            "type": "string"
           }
         }
       },

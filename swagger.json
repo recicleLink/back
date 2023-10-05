@@ -17,56 +17,153 @@
         "summary": "Obtem todos os usuários",
         "responses": {
           "200": {
-            "description": "Sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "Usuários (Array)",
-                  "type": "array",
-                  "items": {
-                    "description": "Usuário (Object)",
-                    "type": "object",
-                    "properties": {
-                      "_id": {
-                        "title": "Identificação única do usuário",
-                        "type": "string"
-                      },
-                      "nome": {
-                        "title": "Nome do usuário",
-                        "type": "string"
-                      },
-                      "email": {
-                        "title": "Email do usuário",
-                        "type": "string"
-                      },
-                      "senha": {
-                        "title": "Senha criptografada do usuário",
-                        "type": "string"
-                      },
-                      "endereco": {
-                        "title": "Endereço do usuário",
-                        "type": "string"
-                      },
-                      "tipoUsuario": {
-                        "title": "Tipo do usuário",
-                        "type": "string"
-                      },
-                      "solicitacoesAtribuidas": {
-                        "title": "Solicitações atribuída do usuário",
-                        "type": "string"
-                      },
-                      "__v": {
-                        "title": "Coluna de controle de versão",
-                        "type": "integer"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/usuarios"
+          },
+          "500": {
+            "$ref": "#/components/responses/error"
           }
         },
         "tags": ["Usuário"]
+      }
+    },
+    "/usuarios/id": {
+      "parameters": [{"$ref": "#/components/parameters/id_string"}],
+      "get": {
+        "summary": "Obtem usuario por id",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/usuario"
+          },
+          "500": {
+            "$ref": "#/components/responses/error"
+          }
+        },
+        "tags": ["Usuário"]
+      }
+    },
+    "/usuarios/tipoUsuario": {
+      "parameters": [{"$ref": "#/components/parameters/tipoUsuario"}],
+      "get": {
+        "summary": "Obtem usuarios por tipo",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/usuarios"
+          },
+          "500": {
+            "$ref": "#/components/responses/error"
+          }
+        },
+        "tags": ["Usuário"]
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "tipoUsuario": {
+        "name": "tipoUsuario",
+        "description": "(usuario, coletador, cooperativa)",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        },
+        "required": false
+      },
+      "id_string": {
+        "name": "id",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "usuario": {
+        "description": "Sucesso",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/usuario"
+            }
+          }
+        }
+      },
+      "usuarios": {
+        "description": "Sucesso",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/usuarios"
+            }
+          }
+        }
+      },
+      "error": {
+        "description": "Erro",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "usuario": {
+        "title": "usuario schema",
+        "description": "Usuário (Object)",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "title": "Identificação única do usuário",
+            "type": "string"
+          },
+          "nome": {
+            "title": "Nome do usuário",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email do usuário",
+            "type": "string"
+          },
+          "senha": {
+            "title": "Senha criptografada do usuário",
+            "type": "string"
+          },
+          "endereco": {
+            "title": "Endereço do usuário",
+            "type": "string"
+          },
+          "tipoUsuario": {
+            "title": "Tipo do usuário",
+            "type": "string"
+          },
+          "solicitacoesAtribuidas": {
+            "title": "Solicitações atribuída do usuário",
+            "type": "string"
+          },
+          "__v": {
+            "title": "Coluna de controle de versão",
+            "type": "integer"
+          }
+        }
+      },
+      "usuarios": {
+        "title": "usuarios schema",
+        "description": "Usuários (Array)",
+        "type": "array",
+        "items": {
+          "$ref": "#components/schemas/usuario"
+        }
+      },
+      "error": {
+        "title": "Erro",
+        "description": "Erro (Object)",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
       }
     }
   }

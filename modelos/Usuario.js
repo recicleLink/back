@@ -1,5 +1,5 @@
 // Importa a biblioteca mongoose
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Define o esquema do modelo de usuário
 const UsuarioSchema = new mongoose.Schema({
@@ -7,8 +7,18 @@ const UsuarioSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   senha: { type: String, required: true },
   endereco: { type: String, required: true },
-  tipoUsuario: { type: String, enum: ['usuario', 'coletador', 'cooperativa'], required: true }
+  tipoUsuario: {
+    type: String,
+    enum: ["usuario", "coletador", "cooperativa"],
+    required: true,
+  },
+  solicitacoesAtribuidas: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SolicitacaoColeta",
+    },
+  ],
 });
 
 // Exporta o modelo de usuário para ser usado em outros arquivos
-module.exports = Usuario = mongoose.model('usuario', UsuarioSchema);
+module.exports = Usuario = mongoose.model("usuario", UsuarioSchema);

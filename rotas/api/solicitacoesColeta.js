@@ -51,5 +51,26 @@ router.get("/usuario/:usuarioId", async (req, res) => {
   }
 });
 
+// Rota para atribuir uma solicitação a um coletador
+router.post("/atribuir", async (req, res) => {
+  const { coletadorId, solicitacaoId } = req.body;
+
+  try {
+    // Atualizar o documento do coletador com a nova solicitação
+    await Usuario.findByIdAndUpdate(
+      coletadorId,
+      {
+        $push: { solicitacoesAtribuidas: solicitacaoId },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: "Solicitação atribuída com sucesso" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erro no servidor");
+  }
+});
+
 // Exporta o router para ser usado em outros arquivos
 module.exports = router;

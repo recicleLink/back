@@ -1,11 +1,13 @@
 // Importa as bibliotecas necessárias
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const Usuario = require('../../modelos/Usuario');
+const bcrypt = require("bcryptjs");
+const Usuario = require("../../modelos/Usuario");
 
 // Rota POST para registro de usuário
-router.post('/registro', async (req, res) => {
+router.post("/registro", async (req, res) => {
+  console.log("Rota /registro chamada");
+  console.log("Corpo da Requisição:", req.body);
   // Desestruturação para obter os dados do corpo da requisição
   const { nome, email, senha, endereco, tipoUsuario } = req.body;
 
@@ -13,7 +15,7 @@ router.post('/registro', async (req, res) => {
     // Verifica se o e-mail já está em uso
     let usuario = await Usuario.findOne({ email });
     if (usuario) {
-      return res.status(400).json({ erros: [{ msg: 'Usuário já existe' }] });
+      return res.status(400).json({ erros: [{ msg: "Usuário já existe" }] });
     }
 
     // Cria um novo objeto de usuário
@@ -22,7 +24,7 @@ router.post('/registro', async (req, res) => {
       email,
       senha,
       endereco,
-      tipoUsuario
+      tipoUsuario,
     });
 
     // Criptografa a senha antes de salvar no banco de dados
@@ -33,11 +35,48 @@ router.post('/registro', async (req, res) => {
     await usuario.save();
 
     // Retorna uma resposta de sucesso
-    res.json({ msg: 'Usuário registrado com sucesso' });
+    res.status(201).json({ msg: "Usuário registrado com sucesso" });
   } catch (err) {
     // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
-    res.status(500).send('Erro no servidor');
+    res.status(500).json({ msg: "Erro no servidor" });
+  }
+});
+
+// rotas/api/autenticacao.js
+
+router.post("/login", async (req, res) => {
+  console.log("Rota /login chamada");
+  const { email, senha } = req.body;
+
+  try {
+    // Verifica se o usuário existe
+    let usuario = await Usuario.findOne({ email });
+    if (!usuario) {
+      return res
+        .status(400)
+        .json({ erros: [{ msg: "Credenciais inválidas" }] });
+    }
+
+    // Compara a senha enviada com a senha no banco de dados
+    const isMatch = await bcrypt.compare(senha, usuario.senha);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ erros: [{ msg: "Credenciais inválidas" }] });
+    }
+
+    // Aqui você pode gerar um token JWT ou qualquer outra lógica de autenticação
+
+    res
+      .status(200)
+      .json({
+        msg: "Usuário autenticado com sucesso",
+        tipoUsuario: usuario.tipoUsuario,
+      });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erro no servidor");
   }
 });
 

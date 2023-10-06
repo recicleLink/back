@@ -120,6 +120,21 @@
         "tags": ["Solicitações"]
       }
     },
+    "/solicitacoesColeta/id": {
+      "parameters": [{"$ref": "#/components/parameters/id_solicitacao"}],
+      "get": {
+        "summary": "Obtem solicitação por ID",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/solicitacao"
+          },
+          "500": {
+            "$ref": "#/components/responses/erro"
+          }
+        },
+        "tags": ["Solicitações"]
+      }
+    },
     "/solicitacoesColeta/usuario": {
       "parameters": [{"$ref": "#/components/parameters/id_usuario"}],
       "get": {
@@ -151,6 +166,21 @@
         },
         "tags": ["Solicitações"]
       }
+    },
+    "/solicitacoesColeta/finalizar": {
+      "parameters": [{"$ref": "#/components/parameters/id_solicitacao"}],
+      "get": {
+        "summary": "Set como concluído a atualização",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/mensagem"
+          },
+          "500": {
+            "$ref": "#/components/responses/erro"
+          }
+        },
+        "tags": ["Solicitações"]
+      }
     }
   },
   "components": {
@@ -173,6 +203,13 @@
       },
       "id_usuario": {
         "name": "idUsuario",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "id_solicitacao": {
+        "name": "idSolicitacao",
         "in": "query",
         "schema": {
           "type": "string"
@@ -248,6 +285,16 @@
           }
         }
       },
+      "solicitacao": {
+        "description": "Sucesso",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/solicitacao"
+            }
+          }
+        }
+      },
       "solicitacoes": {
         "description": "Sucesso",
         "content": {
@@ -274,6 +321,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/error"
+            }
+          }
+        }
+      },
+      "mensagem": {
+        "description": "Mensagem do servidor",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/mensagem"
             }
           }
         }
@@ -478,6 +535,15 @@
           },
           "idSolicitacao": {
             "title": "ID da solicitação",
+            "type": "string"
+          }
+        }
+      },
+      "mensagem": {
+        "title": "Mensagem",
+        "description": "Mensagem (Object)",
+        "properties": {
+          "mensagem": {
             "type": "string"
           }
         }

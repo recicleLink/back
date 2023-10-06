@@ -23,11 +23,11 @@ router.get("/", async (req, res) => {
 // Rota GET para obter solicitação BY ID
 router.get("/id", async (req, res) => {
   // Pega o query param 'id'
-  const { id } = req.query;
+  const { idSolicitacao } = req.query;
 
   try {
     // Busca o usuário correspondente ao ID
-    solicitacao = await SolicitacaoColeta.find({"_id": id})
+    solicitacao = await SolicitacaoColeta.find({"_id": idSolicitacao})
     // Retorna os usuários encontrados
     return res.status(200).json(solicitacao)
   } catch (err) {

@@ -5,13 +5,17 @@ const SolicitacaoColeta = require("../../modelos/SolicitacaoColeta");
 // Criação do objeto roteador do Express
 const router = express.Router();
 
+// Rota GET para obter todas as solicitações
 router.get("/", async (req, res) => {
   try {
+    // Busca todos as solicitações do banco de dados
     const solicitacoes = await SolicitacaoColeta.find();
-    res.json(solicitacoes);
+    // Retorna as solicitações encontradas
+    res.status(200).json(solicitacoes);
   } catch (err) {
+    // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
-    res.status(500).send("Erro no servidor");
+    res.status(500).json({"error": 'Erro no servidor'});
   }
 });
 
@@ -20,10 +24,13 @@ router.post("/", async (req, res) => {
   // Desestruturação para obter os dados do corpo da requisição
   const { idUsuario, endereco, descricao } = req.body;
 
+  status_solicitacao = "andamento"
+
   try {
     // Cria um novo objeto de solicitação de coleta
     const novaSolicitacao = new SolicitacaoColeta({
       idUsuario,
+      status_solicitacao,
       endereco,
       descricao,
     });
@@ -41,14 +48,18 @@ router.post("/", async (req, res) => {
 });
 
 // Rota GET para buscar as solicitações de um usuário específico
-router.get("/usuario/:usuarioId", async (req, res) => {
+router.get("/usuario", async (req, res) => {
   try {
-    const { usuarioId } = req.params;
-    const solicitacoes = await SolicitacaoColeta.find({ usuario: usuarioId });
-    res.json(solicitacoes);
+    // Pega o id do usuáio
+    const { idUsuario } = req.query;
+    // Busca as solicitações desse usuário
+    const solicitacoes = await SolicitacaoColeta.find({ idUsuario });
+    // Retorna as solicitações desse usuário
+    res.status(200).json(solicitacoes);
   } catch (err) {
+    // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
-    res.status(500).send("Erro no servidor");
+    res.status(500).json({"error": 'Erro no servidor'});
   }
 });
 

@@ -134,6 +134,23 @@
         },
         "tags": ["Solicitações"]
       }
+    },
+    "/solicitacoesColeta/atribuir": {
+      "post": {
+        "summary": "Atribui coletor para a solicitação",
+        "requestBody": {
+          "$ref": "#/components/requestBody/solicitacao_atribui"
+        },
+        "responses": {
+          "201": {
+            "description": "Sucesso"
+          },
+          "500": {
+            "$ref": "#/components/responses/erro"
+          }
+        },
+        "tags": ["Solicitações"]
+      }
     }
   },
   "components": {
@@ -186,6 +203,15 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/solicitacao_create"
+            }
+          }
+        }
+      },
+      "solicitacao_atribui": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/solicitacao_atribui"
             }
           }
         }
@@ -439,6 +465,21 @@
         "type": "array",
         "items": {
           "$ref": "#components/schemas/solicitacao"
+        }
+      },
+      "solicitacao_atribui": {
+        "title": "schema atribuição solicitação ao coletor",
+        "description": "solicitacaoColetor (Object)",
+        "type": "object",
+        "properties": {
+          "idColetador": {
+            "title": "ID do coletor",
+            "type": "string"
+          },
+          "idSolicitacao": {
+            "title": "ID da solicitação",
+            "type": "string"
+          }
         }
       },
       "error": {

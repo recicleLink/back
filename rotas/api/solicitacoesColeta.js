@@ -1,5 +1,6 @@
 // Importa as bibliotecas necessárias
 const express = require("express");
+const Usuario = require("../../modelos/Usuario");
 const SolicitacaoColeta = require("../../modelos/SolicitacaoColeta");
 
 // Criação do objeto roteador do Express
@@ -16,6 +17,23 @@ router.get("/", async (req, res) => {
     // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
     res.status(500).json({"error": 'Erro no servidor'});
+  }
+});
+
+// Rota GET para obter solicitação BY ID
+router.get("/id", async (req, res) => {
+  // Pega o query param 'id'
+  const { id } = req.query;
+
+  try {
+    // Busca o usuário correspondente ao ID
+    solicitacao = await SolicitacaoColeta.find({"_id": id})
+    // Retorna os usuários encontrados
+    return res.status(200).json(solicitacao)
+  } catch (err) {
+    // Retorna uma resposta de erro caso algo dê errado
+    console.error(err.message);
+    return res.status(500).json({"error": 'Erro no servidor'});
   }
 });
 
@@ -55,34 +73,61 @@ router.get("/usuario", async (req, res) => {
     // Busca as solicitações desse usuário
     const solicitacoes = await SolicitacaoColeta.find({ idUsuario });
     // Retorna as solicitações desse usuário
-    res.status(200).json(solicitacoes);
+    return res.status(200).json(solicitacoes);
   } catch (err) {
     // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
-    res.status(500).json({"error": 'Erro no servidor'});
+    return res.status(500).json({"error": 'Erro no servidor'});
   }
 });
 
 // Rota para atribuir uma solicitação a um coletador
 router.post("/atribuir", async (req, res) => {
-  const { coletadorId, solicitacaoId } = req.body;
+  // Pega o ID do coletor e o ID da solicitação
+  const { idColetador, idSolicitacao } = req.body;
 
   try {
     // Atualizar o documento do coletador com a nova solicitação
     await Usuario.findByIdAndUpdate(
-      coletadorId,
-      {
-        $push: { solicitacoesAtribuidas: solicitacaoId },
-      },
+      idColetador,
+      {$push: { solicitacoesAtribuidas: idSolicitacao }},
       { new: true }
     );
 
-    res.status(200).json({ msg: "Solicitação atribuída com sucesso" });
+    // Retorna um status 200 e uma mensagem informando o sucesso
+    return res
+      .status(200)
+      .json({"mensagem": "Solicitação atribuída com sucesso"});
   } catch (err) {
+    // Retorna uma resposta de erro caso algo dê errado
     console.error(err.message);
-    res.status(500).send("Erro no servidor");
+    return res.status(500).json({"error": 'Erro no servidor'});
   }
 });
+
+// Rota para finalizar uma solicitação
+router.get("/finalizar", async (req, res) => {
+  // Pega o ID da solicitação
+  const { idSolicitacao } = req.query
+
+  try {
+    // Atualiza o status da solicitação
+    await SolicitacaoColeta.findByIdAndUpdate(
+      idSolicitacao,
+      {$set: { status_solicitacao: "concluido" }},
+      { new: true }
+    )
+
+    // Retorna um status 200 e uma mensagem informando o sucesso
+    return res
+      .status(200)
+      .json({"mensagem": "Solicitação atribuída com sucesso"});
+  } catch (err) {
+    // Retorna uma resposta de erro caso algo dê errado
+    console.error(err.message);
+    return res.status(500).json({"error": 'Erro no servidor'});
+  }
+})
 
 // Exporta o router para ser usado em outros arquivos
 module.exports = router;

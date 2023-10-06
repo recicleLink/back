@@ -14,10 +14,6 @@ pids
 # Diretório para dependências
 node_modules
 
-# Chaves e arquivos de ambiente
-.env
-.env.*.local
-
 # Editor de IDE / configs
 .idea
 .vscode

@@ -73,6 +73,23 @@
         },
         "tags": ["Usuário"]
       }
+    },
+    "/usuarios/login": {
+      "post": {
+        "summary": "Login do usuário",
+        "requestBody": {
+          "$ref": "#/components/requestBody/usuario_login"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/usuario_token"
+          },
+          "400": {
+            "$ref": "#/components/responses/erroCredencial"
+          }
+        },
+        "tags": ["Usuário"]
+      }
     }
   },
   "components": {
@@ -103,6 +120,15 @@
             }
           }
         }
+      },
+      "usuario_login": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/usuario_login"
+            }
+          }
+        }
       }
     },
     "responses": {
@@ -122,6 +148,26 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/usuarios"
+            }
+          }
+        }
+      },
+      "usuario_token": {
+        "description": "Sucesso",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/usuario_token"
+            }
+          }
+        }
+      },
+      "erroCredencial": {
+        "description": "Erro de credencial inválida",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error"
             }
           }
         }
@@ -211,6 +257,47 @@
           "tipoUsuario": {
             "title": "Tipo do usuário",
             "type": "string"
+          }
+        }
+      },
+      "usuario_login": {
+        "title": "schema de login do usuário",
+        "description": "Usuário (Object)",
+        "type": "object",
+        "properties": {
+          "email": {
+            "title": "Email do usuário",
+            "type": "string"
+          },
+          "senha": {
+            "title": "Senha do usuário",
+            "type": "string"
+          }
+        }
+      },
+      "usuario_token": {
+        "title": "schema do token de login do usuário",
+        "description": "Token (Object)",
+        "type": "object",
+        "properties": {
+          "token": {
+            "title": "Token do usuário",
+            "type": "string"
+          },
+          "idUsuario": {
+            "title": "ID do usuário",
+            "type": "string"
+          },
+          "tipoUsuario": {
+            "title": "Tipo do usuário",
+            "type": "string"
+          },
+          "solicitacoesAtribuidas": {
+            "title": "solicitações atribuidas ao usuário",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

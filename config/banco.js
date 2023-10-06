@@ -1,5 +1,7 @@
 // Importa a biblioteca mongoose
 const mongoose = require("mongoose");
+
+// Obtem as variáveis de ambiente
 require("dotenv").config();
 
 // Função assíncrona para conectar ao banco de dados

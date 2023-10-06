@@ -22,7 +22,6 @@ app.use('/api/docs', swagger.serve, swagger.setup(swaggerDoc));
 
 // Define as rotas da API
 app.use("/api/usuarios", require("./rotas/api/usuarios"));
-app.use("/api/autenticacao", require("./rotas/api/autenticacao"));
 app.use("/api/solicitacoesColeta", require("./rotas/api/solicitacoesColeta"));
 
 // Define a porta do servidor e inicia o servidor

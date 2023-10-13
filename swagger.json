@@ -12,547 +12,207 @@
     }
   ],
   "paths": {
-    "/usuarios": {
+    "/usuarioTipos": {
       "get": {
-        "summary": "Obtem todos os usuários",
+        "summary": "Obtem todos os tipos de usuário",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/usuarios"
+            "$ref": "#/components/responses/usuarioTipos"
           },
           "500": {
-            "$ref": "#/components/responses/erro"
+            "$ref": "#/components/responses/erroDesconhecido"
           }
         },
-        "tags": ["Usuário"]
+        "tags": ["Usuário Tipos"]
       },
       "post": {
-        "summary": "Cria um usuário novo",
+        "summary": "Insere um novo tipo de usuário",
         "requestBody": {
-          "$ref": "#/components/requestBody/usuario"
+          "$ref": "#/components/requestBodies/usuarioTipo"
         },
         "responses": {
           "201": {
             "description": "Sucesso"
           },
           "400": {
-            "$ref": "#/components/responses/erroRegistroExiste"
+            "$ref": "#/components/responses/erroRequisicao"
           },
           "500": {
-            "$ref": "#/components/responses/erro"
+            "$ref": "#/components/responses/erroDesconhecido"
           }
         },
-        "tags": ["Usuário"]
+        "tags": ["Usuário Tipos"]
       }
     },
-    "/usuarios/id": {
-      "parameters": [{"$ref": "#/components/parameters/id_string"}],
+    "/usuarioTipos/{id}": {
+      "parameters": [{ "$ref": "#/components/parameters/id" }],
       "get": {
-        "summary": "Obtem usuario por id",
+        "summary": "Obtem o tipo de usuário por id",
         "responses": {
           "200": {
-            "$ref": "#/components/responses/usuario"
-          },
-          "500": {
-            "$ref": "#/components/responses/erro"
-          }
-        },
-        "tags": ["Usuário"]
-      }
-    },
-    "/usuarios/tipoUsuario": {
-      "parameters": [{"$ref": "#/components/parameters/tipoUsuario"}],
-      "get": {
-        "summary": "Obtem usuarios por tipo",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/usuarios"
-          },
-          "500": {
-            "$ref": "#/components/responses/erro"
-          }
-        },
-        "tags": ["Usuário"]
-      }
-    },
-    "/usuarios/login": {
-      "post": {
-        "summary": "Login do usuário",
-        "requestBody": {
-          "$ref": "#/components/requestBody/usuario_login"
-        },
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/usuario_token"
+            "$ref": "#/components/responses/usuarioTipos"
           },
           "400": {
-            "$ref": "#/components/responses/erroCredencial"
-          }
-        },
-        "tags": ["Usuário"]
-      }
-    },
-    "/solicitacoesColeta": {
-      "get": {
-        "summary": "Obtem todas as solicitações",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/solicitacoes"
+            "$ref": "#/components/responses/erroRequisicao"
           },
           "500": {
-            "$ref": "#/components/responses/erro"
+            "$ref": "#/components/responses/erroDesconhecido"
           }
         },
-        "tags": ["Solicitações"]
+        "tags": ["Usuário Tipos"]
       },
-      "post": {
-        "summary": "Cria um solicitação nova",
+      "put": {
+        "summary": "Atualiza o tipo de usuário",
         "requestBody": {
-          "$ref": "#/components/requestBody/solicitacao"
+          "$ref": "#/components/requestBodies/usuarioTipo"
         },
         "responses": {
-          "201": {
+          "204": {
             "description": "Sucesso"
           },
-          "500": {
-            "$ref": "#/components/responses/erro"
-          }
-        },
-        "tags": ["Solicitações"]
-      }
-    },
-    "/solicitacoesColeta/id": {
-      "parameters": [{"$ref": "#/components/parameters/id_solicitacao"}],
-      "get": {
-        "summary": "Obtem solicitação por ID",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/solicitacao"
+          "400": {
+            "$ref": "#/components/responses/erroRequisicao"
           },
           "500": {
-            "$ref": "#/components/responses/erro"
+            "$ref": "#/components/responses/erroDesconhecido"
           }
         },
-        "tags": ["Solicitações"]
-      }
-    },
-    "/solicitacoesColeta/usuario": {
-      "parameters": [{"$ref": "#/components/parameters/id_usuario"}],
-      "get": {
-        "summary": "Obtem as solicitações por usuário",
+        "tags": ["Usuário Tipos"]
+      },
+      "delete": {
+        "summary": "Deleta o tipo de usuário",
         "responses": {
-          "200": {
-            "$ref": "#/components/responses/solicitacoes"
-          },
-          "500": {
-            "$ref": "#/components/responses/erro"
-          }
-        },
-        "tags": ["Solicitações"]
-      }
-    },
-    "/solicitacoesColeta/atribuir": {
-      "post": {
-        "summary": "Atribui coletor para a solicitação",
-        "requestBody": {
-          "$ref": "#/components/requestBody/solicitacao_atribui"
-        },
-        "responses": {
-          "201": {
+          "204": {
             "description": "Sucesso"
           },
-          "500": {
-            "$ref": "#/components/responses/erro"
-          }
-        },
-        "tags": ["Solicitações"]
-      }
-    },
-    "/solicitacoesColeta/finalizar": {
-      "parameters": [{"$ref": "#/components/parameters/id_solicitacao"}],
-      "get": {
-        "summary": "Set como concluído a atualização",
-        "responses": {
-          "200": {
-            "$ref": "#/components/responses/mensagem"
+          "400": {
+            "$ref": "#/components/responses/erroRequisicao"
           },
           "500": {
-            "$ref": "#/components/responses/erro"
+            "$ref": "#/components/responses/erroDesconhecido"
           }
         },
-        "tags": ["Solicitações"]
+        "tags": ["Usuário Tipos"]
       }
     }
   },
   "components": {
     "parameters": {
-      "tipoUsuario": {
-        "name": "tipoUsuario",
-        "description": "(usuario, coletador, cooperativa)",
-        "in": "query",
+      "id": {
+        "name": "id",
+        "in": "path",
         "schema": {
           "type": "string"
         },
-        "required": false
-      },
-      "id_string": {
-        "name": "id",
-        "in": "query",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "id_usuario": {
-        "name": "idUsuario",
-        "in": "query",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "id_solicitacao": {
-        "name": "idSolicitacao",
-        "in": "query",
-        "schema": {
-          "type": "string"
-        }
+        "required": true
       }
     },
-    "requestBody": {
-      "usuario": {
+    "requestBodies": {
+      "usuarioTipo": {
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/usuario_create"
-            }
-          }
-        }
-      },
-      "usuario_login": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/usuario_login"
-            }
-          }
-        }
-      },
-      "solicitacao": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/solicitacao_create"
-            }
-          }
-        }
-      },
-      "solicitacao_atribui": {
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/solicitacao_atribui"
+              "$ref": "#/components/schemas/usuarioTipoInsercao"
             }
           }
         }
       }
     },
     "responses": {
-      "usuario": {
+      "usuarioTipo": {
         "description": "Sucesso",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/usuario"
+              "$ref": "#/components/schemas/usuarioTipo"
             }
           }
         }
       },
-      "usuarios": {
+      "usuarioTipos": {
         "description": "Sucesso",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/usuarios"
+              "$ref": "#/components/schemas/usuarioTipos"
             }
           }
         }
       },
-      "usuario_token": {
-        "description": "Sucesso",
+      "erroRequisicao": {
+        "description": "Erro de requisição",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/usuario_token"
+              "$ref": "#/components/schemas/erroRequisicao"
             }
           }
         }
       },
-      "solicitacao": {
-        "description": "Sucesso",
+      "erroDesconhecido": {
+        "description": "Erro desconhecido",
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/solicitacao"
-            }
-          }
-        }
-      },
-      "solicitacoes": {
-        "description": "Sucesso",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/solicitacoes"
-            }
-          }
-        }
-      },
-      "erroCredencial": {
-        "description": "Erro de credencial inválida",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/error"
-            }
-          }
-        }
-      },
-      "erroRegistroExiste": {
-        "description": "Erro de registro já existente",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/error"
-            }
-          }
-        }
-      },
-      "mensagem": {
-        "description": "Mensagem do servidor",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/mensagem"
-            }
-          }
-        }
-      },
-      "erro": {
-        "description": "Erro do servidor",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/error"
+              "$ref": "#/components/schemas/erroDesconhecido"
             }
           }
         }
       }
     },
     "schemas": {
-      "usuario": {
-        "title": "usuario schema",
-        "description": "Usuário (Object)",
+      "usuarioTipo": {
+        "title": "Tipo de usuário schema",
+        "description": "Objeto do tipo de usuário",
         "type": "object",
         "properties": {
           "_id": {
-            "title": "Identificação única do usuário",
+            "title": "Identificação única do tipo de usuário",
             "type": "string"
           },
-          "nome": {
-            "title": "Nome do usuário",
+          "ust_tipo": {
+            "title": "Nome do tipo de usuário",
             "type": "string"
-          },
-          "email": {
-            "title": "Email do usuário",
-            "type": "string"
-          },
-          "senha": {
-            "title": "Senha criptografada do usuário",
-            "type": "string"
-          },
-          "endereco": {
-            "title": "Endereço do usuário",
-            "type": "string"
-          },
-          "tipoUsuario": {
-            "title": "Tipo do usuário",
-            "type": "string"
-          },
-          "solicitacoesAtribuidas": {
-            "title": "Solicitações atribuída do usuário",
-            "type": "string"
-          },
-          "__v": {
-            "title": "Coluna de controle de versão",
-            "type": "integer"
           }
         }
       },
-      "usuario_create": {
-        "title": "schema de criação do usuário",
-        "description": "Usuário (Object)",
+      "usuarioTipoInsercao": {
+        "title": "Tipo de usuário inserção schema",
+        "description": "Objeto do tipo de usuário para inserção",
         "type": "object",
         "properties": {
-          "nome": {
-            "title": "Nome do usuário",
-            "type": "string"
-          },
-          "email": {
-            "title": "Email do usuário",
-            "type": "string"
-          },
-          "senha": {
-            "title": "Senha do usuário",
-            "type": "string"
-          },
-          "endereco": {
-            "title": "Endereço do usuário",
-            "type": "string"
-          },
-          "tipoUsuario": {
-            "title": "Tipo do usuário",
+          "tipo": {
+            "title": "Nome do tipo de usuário",
             "type": "string"
           }
         }
       },
-      "usuario_login": {
-        "title": "schema de login do usuário",
-        "description": "Usuário (Object)",
-        "type": "object",
-        "properties": {
-          "email": {
-            "title": "Email do usuário",
-            "type": "string"
-          },
-          "senha": {
-            "title": "Senha do usuário",
-            "type": "string"
-          }
-        }
-      },
-      "usuario_token": {
-        "title": "schema do token de login do usuário",
-        "description": "Token (Object)",
-        "type": "object",
-        "properties": {
-          "token": {
-            "title": "Token do usuário",
-            "type": "string"
-          },
-          "idUsuario": {
-            "title": "ID do usuário",
-            "type": "string"
-          },
-          "tipoUsuario": {
-            "title": "Tipo do usuário",
-            "type": "string"
-          },
-          "solicitacoesAtribuidas": {
-            "title": "solicitações atribuidas ao usuário",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "usuarios": {
-        "title": "usuarios schema",
-        "description": "Usuários (Array)",
+      "usuarioTipos": {
+        "title": "Tipos de usuário schema",
+        "description": "Array de tipos de usuário",
         "type": "array",
         "items": {
-          "$ref": "#components/schemas/usuario"
+          "$ref": "#/components/schemas/usuarioTipo"
         }
       },
-      "solicitacao": {
-        "title": "solicitação schema",
-        "description": "Solicitação (Object)",
+      "erroRequisicao": {
+        "title": "Erro de requisição",
+        "description": "Objeto do erro de requisição",
         "type": "object",
         "properties": {
-          "_id": {
-            "title": "Identificação única do usuário",
+          "erro": {
+            "title": "Mensagem do erro",
             "type": "string"
-          },
-          "idUsuario": {
-            "title": "ID do usuário que fez a solicitação",
-            "type": "string"
-          },
-          "status_solicitacao": {
-            "title": "Status da solicitação",
-            "type": "string"
-          },
-          "endereco": {
-            "title": "Endereço da solicitação",
-            "type": "string"
-          },
-          "descricao": {
-            "title": "Descrição da solicitação",
-            "type": "string"
-          },
-          "data": {
-            "title": "Data da solicitação",
-            "type": "string"
-          },
-          "__v": {
-            "title": "Coluna de controle de versão",
-            "type": "integer"
           }
         }
       },
-      "solicitacao_create": {
-        "title": "schema de criação da solicitação",
-        "description": "Solicitação (Object)",
+      "erroDesconhecido": {
+        "title": "Erro desconhecido",
+        "description": "Objeto do erro desconhecido",
         "type": "object",
         "properties": {
-          "idUsuario": {
-            "title": "ID do usuário",
-            "type": "string"
-          },
-          "endereco": {
-            "title": "Endereço da solicitação",
-            "type": "string"
-          },
-          "descricao": {
-            "title": "Descrição da solicitação",
-            "type": "string"
-          }
-        }
-      },
-      "solicitacoes": {
-        "title": "solicitacoes schema",
-        "description": "Solicitações (Array)",
-        "type": "array",
-        "items": {
-          "$ref": "#components/schemas/solicitacao"
-        }
-      },
-      "solicitacao_atribui": {
-        "title": "schema atribuição solicitação ao coletor",
-        "description": "solicitacaoColetor (Object)",
-        "type": "object",
-        "properties": {
-          "idColetador": {
-            "title": "ID do coletor",
-            "type": "string"
-          },
-          "idSolicitacao": {
-            "title": "ID da solicitação",
-            "type": "string"
-          }
-        }
-      },
-      "mensagem": {
-        "title": "Mensagem",
-        "description": "Mensagem (Object)",
-        "properties": {
-          "mensagem": {
-            "type": "string"
-          }
-        }
-      },
-      "error": {
-        "title": "Erro",
-        "description": "Erro (Object)",
-        "properties": {
-          "error": {
+          "erro": {
+            "title": "Mensagem do erro",
             "type": "string"
           }
         }

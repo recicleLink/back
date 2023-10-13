@@ -8,7 +8,7 @@ class UsuarioTposController {
       const registros = await UsuarioTiposModel.find().select('_id ust_tipo');
       return res.status(200).json(registros);
     } catch (err) {
-      return res.status(500).json({'error': 'Erro desconhecido'});
+      return res.status(500).json({'erro': 'Erro desconhecido'});
     }
   }
 
@@ -23,12 +23,9 @@ class UsuarioTposController {
       return res.status(200).json(registro);
     } catch (err) {
       if (err.name == 'CastError') {
-        return res.status(400)
-          .json({
-            'error': 'O(s) parâmetro(s) informado(s) está(ão) incorreto(s)'
-          });
+        return res.status(400).json({'erro': 'O ID informado está incorreto'});
       } else {
-        return res.status(500).json({'error': 'Erro desconhecido'});
+        return res.status(500).json({'erro': 'Erro desconhecido'});
       }
     }
   }
@@ -47,11 +44,11 @@ class UsuarioTposController {
       return res.status(201).json();
     } catch (err) {
       if (err.name == 'MongoServerError' && err.code == 11000) {
-        return res.status(400).json({'error': 'O registro já existe'});
+        return res.status(400).json({'erro': 'O registro já existe'});
       } else if (err.name == 'ParamsError') {
-        return res.status(400).json({'error': err.message});
+        return res.status(400).json({'erro': err.message});
       } else {
-        return res.status(500).json({'error': 'Erro desconhecido'});
+        return res.status(500).json({'erro': 'Erro desconhecido'});
       }
     }
   }
@@ -77,11 +74,13 @@ class UsuarioTposController {
       return res.status(204).json();
     } catch (err) {
       if (err.name == 'MongoServerError' && err.code == 11000) {
-        return res.status(400).json({'error': 'O registro já existe'});
+        return res.status(400).json({'erro': 'O registro já existe'});
       } else if (err.name == 'ParamsError') {
-        return res.status(400).json({'error': err.message});
+        return res.status(400).json({'erro': err.message});
+      } else if (err.name == 'CastError') {
+        return res.status(400).json({'erro': 'O ID informado está incorreto'});
       } else {
-        return res.status(500).json({'error': 'Erro desconhecido'});
+        return res.status(500).json({'erro': 'Erro desconhecido'});
       }
     }
   }
@@ -99,9 +98,11 @@ class UsuarioTposController {
       return res.status(204).json();
     } catch (err) {
       if (err.name == 'ParamsError') {
-        return res.status(400).json({'error': err.message});
+        return res.status(400).json({'erro': err.message});
+      } else if (err.name == 'CastError') {
+        return res.status(400).json({'erro': 'O ID informado está incorreto'});
       } else {
-        return res.status(500).json({'error': 'Erro desconhecido'});
+        return res.status(500).json({'erro': 'Erro desconhecido'});
       }
     }
   }

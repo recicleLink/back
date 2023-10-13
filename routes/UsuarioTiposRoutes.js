@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const UsuarioTiposController = require('../controllers/UsuarioTiposController');
-const {userTypesInsertSchema, userTypesSelectByIDSchema} = require('../middlewares/UserTypesValidation');
+const { userTypesInsertSchema, userTypesSelectByIDSchema } = require('../middlewares/UserTypesValidation');
 
 const UsuarioTiposRoutes = Router();
 

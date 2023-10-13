@@ -1,21 +1,21 @@
 const { checkSchema } = require('express-validator');
 
-const userTypesInsertSchema = checkSchema({
-  'tipo': {
+const materialsInsertSchema = checkSchema({
+  'nome': {
     notEmpty: { 
-      errorMessage: 'O campo tipo não pode estar vazio'
+      errorMessage: 'O campo nome não pode estar vazio'
     },
     isString: {
-      errorMessage: 'O campo tipo deve ser do tipo string'
+      errorMessage: 'O campo nome deve ser do tipo string'
     },
     isLength: {
       options: { max: 60 },
-      errorMessage: 'O campo tipo deve ter no máximo 60 caracteres.'
+      errorMessage: 'O campo nome deve ter no máximo 60 caracteres.'
     }
   }
 });
 
-const userTypesSelectByIDSchema = checkSchema({
+const materialsSelectByIDSchema = checkSchema({
   'id': {
     notEmpty: { 
       errorMessage: 'O campo id não pode estar vazio'
@@ -29,4 +29,4 @@ const userTypesSelectByIDSchema = checkSchema({
   }
 });
 
-module.exports = { userTypesInsertSchema, userTypesSelectByIDSchema }
+module.exports = { materialsInsertSchema, materialsSelectByIDSchema }

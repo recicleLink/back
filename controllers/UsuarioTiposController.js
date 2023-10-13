@@ -1,11 +1,14 @@
-const ParamsError = require('../errors/ParamsError');
+const { validationResult } = require('express-validator');
 const UsuarioTiposModel = require('../models/UsuarioTiposModel');
-
 
 class UsuarioTposController {
   static async getUsuarioTipos(_, res) {
     try {
-      const registros = await UsuarioTiposModel.find().select('_id ust_tipo');
+      const colunas = ['_id', 'ust_tipo'];
+      const registros = await UsuarioTiposModel
+        .find()
+        .select(colunas.join(' '));
+
       return res.status(200).json(registros);
     } catch (err) {
       return res.status(500).json({'erro': 'Erro desconhecido'});
@@ -16,14 +19,21 @@ class UsuarioTposController {
     try {
       const { id } = req.params;
 
-      const registro = await UsuarioTiposModel
-        .find({'_id': id})
-        .select('_id ust_tipo');
+      const result = validationResult(req);
 
-      return res.status(200).json(registro);
+      if (!result.isEmpty()) {
+        result.array().forEach(erro => {throw new Error(erro.msg)})
+      };
+
+      const colunas = ['_id', 'ust_tipo'];
+      const registro = await UsuarioTiposModel
+        .findById(id)
+        .select(colunas.join(' '));
+
+      return res.status(200).json(registro ? registro : {});
     } catch (err) {
-      if (err.name == 'CastError') {
-        return res.status(400).json({'erro': 'O ID informado está incorreto'});
+      if (err.name == 'Error') {
+        return res.status(400).json({'erro': err.message});
       } else {
         return res.status(500).json({'erro': 'Erro desconhecido'});
       }
@@ -34,9 +44,11 @@ class UsuarioTposController {
     try {
       const { tipo } = req.body;
 
-      if (tipo == undefined || tipo == '') {
-        throw new ParamsError(['tipo']);
-      }
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+        result.array().forEach(erro => {throw new Error(erro.msg)})
+      };
 
       const registro = new UsuarioTiposModel({ ust_tipo: tipo });
       await registro.save();
@@ -45,7 +57,7 @@ class UsuarioTposController {
     } catch (err) {
       if (err.name == 'MongoServerError' && err.code == 11000) {
         return res.status(400).json({'erro': 'O registro já existe'});
-      } else if (err.name == 'ParamsError') {
+      } else if (err.name == 'Error') {
         return res.status(400).json({'erro': err.message});
       } else {
         return res.status(500).json({'erro': 'Erro desconhecido'});
@@ -58,27 +70,25 @@ class UsuarioTposController {
       const { id } = req.params;
       const { tipo } = req.body;
 
-      if (tipo == undefined || tipo == '') {
-        throw new ParamsError(['tipo']);
-      }
+      const result = validationResult(req);
 
-      const registro = await UsuarioTiposModel.findByIdAndUpdate(
-        {'_id': id},
-        {$set: {ust_tipo: tipo}}
-      );
+      if (!result.isEmpty()) {
+        result.array().forEach(erro => {throw new Error(erro.msg)})
+      };
 
-      if (registro == null) {
-        throw new ParamsError(['id']);
-      }
+      const registro = await UsuarioTiposModel
+        .findByIdAndUpdate(id, {$set: {ust_tipo: tipo}});
+
+        if (registro == null) {
+          throw new Error('O campo ID do tipo de usuário está incorreto');
+        }
 
       return res.status(204).json();
     } catch (err) {
       if (err.name == 'MongoServerError' && err.code == 11000) {
         return res.status(400).json({'erro': 'O registro já existe'});
-      } else if (err.name == 'ParamsError') {
+      } else if (err.name == 'Error') {
         return res.status(400).json({'erro': err.message});
-      } else if (err.name == 'CastError') {
-        return res.status(400).json({'erro': 'O ID informado está incorreto'});
       } else {
         return res.status(500).json({'erro': 'Erro desconhecido'});
       }
@@ -89,18 +99,22 @@ class UsuarioTposController {
     try {
       const { id } = req.params
 
-      const registro = await UsuarioTiposModel.findByIdAndDelete({'_id': id})
+      const result = validationResult(req);
+
+      if (!result.isEmpty()) {
+        result.array().forEach(erro => {throw new Error(erro.msg)})
+      };
+
+      const registro = await UsuarioTiposModel.findByIdAndDelete(id)
 
       if (registro == null) {
-        throw new ParamsError(['id']);
+        throw new Error('O campo ID do tipo de usuário está incorreto');
       }
 
       return res.status(204).json();
     } catch (err) {
-      if (err.name == 'ParamsError') {
+      if (err.name == 'Error') {
         return res.status(400).json({'erro': err.message});
-      } else if (err.name == 'CastError') {
-        return res.status(400).json({'erro': 'O ID informado está incorreto'});
       } else {
         return res.status(500).json({'erro': 'Erro desconhecido'});
       }
